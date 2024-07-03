@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mensajes</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="main-messages">
+
+      <div class="docente-messages">
+        <h2>Docentes</h2>
+        <ul id="docenteMessages"></ul>
+      </div>
+
+      <div class="alumno-messages">
+        <h2>Alumnos</h2>
+        <ul id="alumnoMessages"></ul>
+      </div>
+
+    </div>
+
+    <script>
+      const docenteMessagesList = document.getElementById("docenteMessages");
+      const alumnoMessagesList = document.getElementById("alumnoMessages");
+
+      const eventSource = new EventSource("http://localhost:3000/messege");
+
+      eventSource.addEventListener("docente", (event) => {
+        const data = JSON.parse(event.data);
+        docenteMessagesList.innerHTML = "";
+
+        data.forEach((message) => {
+          const li = document.createElement("li");
+          li.textContent = message.content;
+          docenteMessagesList.appendChild(li);
+        });
+      });
+
+      eventSource.addEventListener("alumno", (event) => {
+        const data = JSON.parse(event.data);
+        alumnoMessagesList.innerHTML = "";
+
+        data.forEach((message) => {
+          const li = document.createElement("li");
+          li.textContent = message.content;
+          alumnoMessagesList.appendChild(li);
+        });
+      });
+    </script>
+  </body>
+</html>

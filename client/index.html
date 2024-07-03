@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="messageForm">
+        <textarea id="messageContent" placeholder="Mensaje"></textarea>
+        <br>
+        <select id="recipient">
+            <option value="------"></option>
+            <option value="docente">Docente</option>
+            <option value="alumno">Alumno</option>
+        </select>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+    <br>
+
+    <script>
+        const messageForm = document.getElementById('messageForm');
+        const messageContent = document.getElementById('messageContent');
+        const recipient = document.getElementById('recipient');
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = {
+                recipient: recipient.value,
+                content: messageContent.value
+            };
+
+            fetch('http://localhost:3000/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(message)
+            });
+
+            messageContent.value = '';
+        });
+    </script>
+</body>
+</html>
